@@ -6,6 +6,7 @@ import com.example.ecommerce.catalog.entity.ProductEntity;
 import com.example.ecommerce.catalog.mapper.ProductMapper;
 import com.example.ecommerce.catalog.repository.CategoryRepository;
 import com.example.ecommerce.catalog.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ public class ProductService {
             throw new IllegalArgumentException("SKU already exists: " + sku);
         }
     }
-
+    @Transactional
     public ProductDTO createProduct(ProductDTO productDTO) {
 
         checkSkuAvailability(productDTO.getSku());
@@ -54,7 +55,7 @@ public class ProductService {
 
         return productMapper.toDTO(savedProduct);
     }
-
+    @Transactional
     public ProductDTO updateProduct(UUID id, ProductDTO productDTO) {
 
         ProductEntity existingProduct = productRepository.findById(id)
@@ -95,7 +96,7 @@ public class ProductService {
         return productMapper.toDTOList(products);
 
     }
-
+    @Transactional
     public ProductDTO deactivateProduct(UUID id) {
         ProductEntity product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
@@ -106,7 +107,7 @@ public class ProductService {
 
         return productMapper.toDTO(savedProduct);
     }
-
+    @Transactional
     public ProductDTO activateProduct(UUID id) {
         ProductEntity product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));

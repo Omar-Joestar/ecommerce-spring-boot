@@ -4,6 +4,7 @@ import com.example.ecommerce.user.dto.UserDTO;
 import com.example.ecommerce.user.entity.UserEntity;
 import com.example.ecommerce.user.mapper.UserMapper;
 import com.example.ecommerce.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class UserService {
             throw new IllegalArgumentException("Email already exists");
         }
     }
-
+    @Transactional
     public String  encodePassword(String password) {
         return passwordEncoder.encode(password);
     }
@@ -66,7 +67,7 @@ public class UserService {
         UserEntity user = getUserById(id);
         return userMapper.toDTO(user);
     }
-
+    @Transactional
     public UserDTO createUser(UserDTO userDTO) {
 
         checkEmailAvailability(userDTO.getEmail());

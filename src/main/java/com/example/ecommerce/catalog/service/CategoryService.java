@@ -4,6 +4,7 @@ import com.example.ecommerce.catalog.dto.CategoryDTO;
 import com.example.ecommerce.catalog.entity.CategoryEntity;
 import com.example.ecommerce.catalog.mapper.CategoryMapper;
 import com.example.ecommerce.catalog.repository.CategoryRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class CategoryService {
         return categoryMapper.toDTOList(categoryRepository.findAll());
     }
 
-
+    @Transactional
     public CategoryDTO addCategory(CategoryDTO categoryDTO) {
         checkCategoryNameAvailability(categoryDTO.getName());
         CategoryEntity categoryEntity = categoryMapper.toEntity(categoryDTO);
@@ -40,7 +41,7 @@ public class CategoryService {
         CategoryEntity categoryEntity= categoryRepository.findById(id).orElseThrow(()-> new RuntimeException("No Category With This ID"));
         return categoryMapper.toDTO(categoryEntity);
     }
-
+    @Transactional
     public CategoryDTO updateCategory(UUID id, CategoryDTO categoryDTO) {
         CategoryEntity existingCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
@@ -57,7 +58,7 @@ public class CategoryService {
         return categoryMapper.toDTO(updatedCategory);
     }
 
-
+    @Transactional
     public void deleteCategory(UUID id) {
         CategoryEntity category = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
