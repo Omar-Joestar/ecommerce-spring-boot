@@ -4,6 +4,7 @@ package com.example.ecommerce.inventory.controller;
 import com.example.ecommerce.inventory.dto.InventoryDTO;
 import com.example.ecommerce.inventory.service.InventoryService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +44,7 @@ public class InventoryController {
     @PatchMapping("/product/{productId}/add")
     public InventoryDTO addStock(
             @PathVariable UUID productId,
-            @RequestParam @jakarta.validation.constraints.Positive Integer quantity
+            @RequestParam @Positive Integer quantity
     ) {
         return inventoryService.addStock(productId, quantity);
     }
@@ -51,7 +52,7 @@ public class InventoryController {
     @PatchMapping("/product/{productId}/remove")
     public InventoryDTO removeStock(
             @PathVariable UUID productId,
-            @RequestParam @jakarta.validation.constraints.Positive Integer quantity
+            @RequestParam @Positive Integer quantity
     ) {
         return inventoryService.removeStock(productId, quantity);
     }
